@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('voter_delete', {'id': voter.id}) }}" onsubmit="return confirm('Bist du sicher, dass du diesen Wähler löschen möchtest?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ voter.id) }}">
+    <button class="btn btn-danger">Löschen</button>
+</form>

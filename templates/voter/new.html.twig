@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Neuen Wähler anlegen{% endblock %}
+
+{% block body %}
+    <h1>Neuen Wähler anlegen</h1>
+
+    <a class="btn btn-secondary" href="{{ path('voter_index') }}">Zurück zur Übersicht</a>
+
+    {{ include('voter/_form.html.twig') }}
+{% endblock %}

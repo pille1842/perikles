@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" target-language="de" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target>E-Mail-Adresse</target>
+      </trans-unit>
+      <trans-unit id="wlM3BVR" resname="Roles">
+        <source>Roles</source>
+        <target>Rollen</target>
+      </trans-unit>
+      <trans-unit id="59PnafP" resname="Administrator">
+        <source>Administrator</source>
+        <target>Administrator</target>
+      </trans-unit>
+      <trans-unit id="588_9PF" resname="Password">
+        <source>Password</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit id="FQn1YfJ" resname="Save">
+        <source>Save</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="PdnfREH" resname="New password">
+        <source>New password</source>
+        <target>Neues Passwort</target>
+      </trans-unit>
+      <trans-unit id="vwAEIa6" resname="Confirm new password">
+        <source>Confirm new password</source>
+        <target>Neues Passwort wiederholen</target>
+      </trans-unit>
+      <trans-unit id="ww7qr0Y" resname="User admin">
+        <source>User admin</source>
+        <target>Kann Benutzer verwalten</target>
+      </trans-unit>
+      <trans-unit id="s7ImrHW" resname="Voter admin">
+        <source>Voter admin</source>
+        <target>Kann Wähler verwalten</target>
+      </trans-unit>
+      <trans-unit id="djGK_GY" resname="The changes were saved successfully.">
+        <source>The changes were saved successfully.</source>
+        <target>Die Änderungen wurden erfolgreich gespeichert.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

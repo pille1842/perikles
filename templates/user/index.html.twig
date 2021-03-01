@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Benutzer{% endblock %}
+
+{% block body %}
+    <h1>Benutzer</h1>
+
+    <p>
+        Benutzer im Sinne dieses Systems sind Personen, die sich einloggen können, um Wähler und andere Benutzer zu verwalten und
+        Abstimmungen durchzuführen. <strong>Wähler benötigen keinen Benutzerzugang.</strong>
+    </p>
+
+    <p><a href="{{ path('user.new') }}" class="btn btn-primary">Benutzer hinzufügen</a></p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">E-Mail-Adresse</th>
+                <th scope="col">Aktion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                    <td>
+                        <form method="POST" action="{{ path('user.delete', {id: user.id}) }}">
+                            <a href="{{ path('user.edit', {id: user.id}) }}" class="btn btn-secondary">Bearbeiten</a>
+                            {% if user.id != app.user.id %}
+                                <button type="submit" class="btn btn-danger">Löschen</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

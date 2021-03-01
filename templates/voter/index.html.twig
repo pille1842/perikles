@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wählerliste{% endblock %}
+
+{% block body %}
+    <h1>Wählerliste</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>E-Mail-Adresse</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for voter in voters %}
+            <tr>
+                <td>{{ voter.id }}</td>
+                <td>{{ voter.name }}</td>
+                <td>{{ voter.email }}</td>
+                <td>
+                    <a class="btn btn-secondary" href="{{ path('voter_edit', {'id': voter.id}) }}">Bearbeiten</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Keine Einträge gefunden.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('voter_new') }}">Neuen Wähler anlegen</a>
+{% endblock %}

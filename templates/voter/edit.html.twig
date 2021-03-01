@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wähler bearbeiten{% endblock %}
+
+{% block body %}
+    <h1>Wähler bearbeiten</h1>
+
+    {{ include('voter/_form.html.twig', {'button_label': 'Speichern'}) }}
+
+    <a href="{{ path('voter_index') }}">Zurück zur Übersicht</a>
+
+    {{ include('voter/_delete_form.html.twig') }}
+{% endblock %}
