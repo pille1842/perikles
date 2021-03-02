@@ -8,7 +8,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,12 +17,12 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
             ->add('email', EmailType::class)
+            ->add('name', TextType::class)
             ->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'User admin' => 'ROLE_USER_ADMIN',
-                    'Voter admin' => 'ROLE_VOTER_ADMIN',
+                    'ROLE_USER_ADMIN' => 'ROLE_USER_ADMIN',
+                    'ROLE_VOTER_ADMIN' => 'ROLE_VOTER_ADMIN',
                 ],
                 'expanded' => true,
                 'multiple' => true,
@@ -36,7 +35,6 @@ class UserType extends AbstractType
                 'invalid_message' => 'The values do not match.',
                 'required' => $options['require_password'],
             ])
-            ->add('save', SubmitType::class)
         ;
     }
 

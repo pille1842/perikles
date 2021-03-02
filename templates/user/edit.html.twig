@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Benutzer{% endblock %}
+{% block title %}Benutzer bearbeiten{% endblock %}
 
 {% block body %}
-    <h1>Benutzer {{ user.name }} bearbeiten</h1>
+    <h1>Benutzer bearbeiten</h1>
 
-    {{ form(form) }}
+    {{ include('user/_form.html.twig', {'button_label': 'Speichern'}) }}
+
+    <a href="{{ path('user_index') }}">Zurück zur Übersicht</a>
+
+    {% if user.id != app.user.id %}
+        {{ include('user/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

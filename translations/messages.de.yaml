@@ -6,9 +6,7 @@ Password: Passwort
 Save: Speichern
 New password: Neues Passwort
 Confirm new password: Neues Passwort wiederholen
-User admin: Kann Benutzer verwalten
-Voter admin: Kann Wähler verwalten
-The changes were saved successfully.: Die Änderungen wurden erfolgreich gespeichert.
-The new user was created successfully.: Der neue Benutzer wurde erfolgreich angelegt.
 You cannot delete your own account.: Du kannst dein eigenes Benutzerkonto nicht löschen.
-The user was removed successfully.: Der Benutzer wurde erfolgreich gelöscht.
+ROLE_USER: Benutzer
+ROLE_USER_ADMIN: Kann Benutzer verwalten
+ROLE_VOTER_ADMIN: Kann Wähler verwalten

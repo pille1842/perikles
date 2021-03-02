@@ -5,38 +5,42 @@
 {% block body %}
     <h1>Benutzer</h1>
 
-    <p>
-        Benutzer im Sinne dieses Systems sind Personen, die sich einloggen können, um Wähler und andere Benutzer zu verwalten und
-        Abstimmungen durchzuführen. <strong>Wähler benötigen keinen Benutzerzugang.</strong>
-    </p>
-
-    <p><a href="{{ path('user.new') }}" class="btn btn-primary">Benutzer hinzufügen</a></p>
-
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">E-Mail-Adresse</th>
-                <th scope="col">Aktion</th>
+                <th>#</th>
+                <th>E-Mail-Adresse</th>
+                <th>Name</th>
+                <th>Rollen</th>
+                <th>Aktionen</th>
             </tr>
         </thead>
         <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
-                    <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-                    <td>
-                        <form method="POST" action="{{ path('user.delete', {id: user.id}) }}">
-                            <a href="{{ path('user.edit', {id: user.id}) }}" class="btn btn-secondary">Bearbeiten</a>
-                            {% if user.id != app.user.id %}
-                                <button type="submit" class="btn btn-danger">Löschen</button>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                <td>{{ user.name }}</td>
+                <td>
+                    <ul>
+                        {% for role in user.roles %}
+                            {% if role != 'ROLE_USER' %}
+                            <li>{{ role | trans }}</li>
                             {% endif %}
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <a class="btn btn-secondary" href="{{ path('user_edit', {'id': user.id}) }}">Bearbeiten</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Keine Einträge gefunden.</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('user_new') }}" class="btn btn-success">Neuen Benutzer erstellen</a>
 {% endblock %}

@@ -14,40 +14,44 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 
 /**
- * @Route("/user/", name="user.")
+ * @Route("/user")
  * @IsGranted("ROLE_USER_ADMIN")
  */
 class UserController extends AbstractController
 {
-    /**
-     * @Route("", name="index")
-     */
-    public function index(UserRepository $userRepo): Response
-    {
-        $users = $userRepo->findAll();
+    private $passwordEncoder;
 
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
+    /**
+     * @Route("/", name="user_index", methods={"GET"})
+     */
+    public function index(UserRepository $userRepository): Response
+    {
         return $this->render('user/index.html.twig', [
-            'users' => $users
+            'users' => $userRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("new", name="new")
+     * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(UserPasswordEncoderInterface $passwordEncoder, Request $request): Response
+    public function new(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user, [
             'require_password' => true,
         ]);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
+                $this->passwordEncoder->encodePassword(
+                $user,
+                $form->get('plainPassword')->getData()
                 )
             );
 
@@ -55,76 +59,61 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', new TranslatableMessage('The new user was created successfully.'));
-
-            return $this->redirectToRoute('user.index');
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/new.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("{id}", name="edit")
+     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(UserPasswordEncoderInterface $passwordEncoder, Request $request, int $id): Response
+    public function edit(Request $request, User $user): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->getRepository(User::class)->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException('No user found for ID '.$id);
-        }
-
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('plainPassword')->getData() != '') {
+            $newPassword = $form->get('plainPassword')->getData();
+            if ($newPassword != '') {
                 $user->setPassword(
-                    $passwordEncoder->encodePassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
+                    $this->passwordEncoder->encodePassword(
+                    $user,
+                    $newPassword
                     )
                 );
             }
 
-            $entityManager->flush();
+            $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', new TranslatableMessage('The changes were saved successfully.'));
-
-            return $this->redirectToRoute('user.index');
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/edit.html.twig', [
-            'form' => $form->createView(),
             'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("{id}/delete", name="delete", methods={"POST","DELETE"})
+     * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function delete(int $id): Response
+    public function delete(Request $request, User $user): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->getRepository(User::class)->find($id);
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            if ($user->getId() == $this->getUser()->getId()) {
+                $this->addFlash('danger', new TranslatableMessage('You cannot delete your own account.'));
+                return $this->redirectToRoute('user_edit', ['user' => $user]);
+            }
 
-        if (!$user) {
-            throw new $this->createNotFoundException('No user found for ID '.$id);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
         }
 
-        if ($this->getUser()->getId() == $user->getId()) {
-            // Don't allow the user to delete his own account
-            $this->addFlash('danger', new TranslatableMessage('You cannot delete your own account.'));
-            return $this->redirectToRoute('user.index');
-        }
-
-        $entityManager->remove($user);
-        $this->addFlash('success', new TranslatableMessage('The user was removed successfully.'));
-        $entityManager->flush();
-
-        return $this->redirectToRoute('user.index');
+        return $this->redirectToRoute('user_index');
     }
 }
