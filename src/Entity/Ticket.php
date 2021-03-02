@@ -25,7 +25,7 @@ class Ticket
 
     /**
      * @ORM\ManyToOne(targetEntity=Voter::class, inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $voter;
 

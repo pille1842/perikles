@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abstimmung: {{ poll.title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ poll.title }}</h1>
+
+    <p>
+        {{ poll.description }}
+    </p>
+
+    <h2>Deine Stimme</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">{{ button_label|default('Jetzt endgültig abstimmen') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

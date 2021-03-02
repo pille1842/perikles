@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Poll;
 use App\Form\PollType;
 use App\Repository\PollRepository;
+use App\Service\VotingService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,6 +79,23 @@ class PollController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$poll->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($poll);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('poll_index');
+    }
+
+    /**
+     * @Route("/{id}/start", name="poll_start", methods={"POST"})
+     */
+    public function start(VotingService $votingService, Request $request, Poll $poll): Response
+    {
+        if ($this->isCsrfTokenValid('start'.$poll->getId(), $request->request->get('_token'))) {
+            $votingService->startVote($poll);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $poll->setStarted(true);
+            $entityManager->persist($poll);
             $entityManager->flush();
         }
 

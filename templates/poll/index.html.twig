@@ -26,8 +26,11 @@
                 <td>{{ include('poll/_status.html.twig', {'poll': poll}) }}</td>
                 <td>
                     {% if not poll.started %}
-                        <a href="{{ path('poll_edit', {'id': poll.id}) }}" class="btn btn-secondary">Bearbeiten</a>
-                        <a href="#" class="btn btn-success">Starten</a>
+                        <form method="post" action="{{ path('poll_start', {'id': poll.id}) }}" onsubmit="return confirm('Bist du sicher, dass du diese Abstimmung starten willst?');">
+                            <a href="{{ path('poll_edit', {'id': poll.id}) }}" class="btn btn-secondary">Bearbeiten</a>
+                            <input type="hidden" name="_token" value="{{ csrf_token('start' ~ poll.id) }}">
+                            <button class="btn btn-success">Starten</button>
+                        </form>
                     {% else %}
                         {% if not poll.stopped %}
                             <a href="#" class="btn btn-danger">Beenden</a>

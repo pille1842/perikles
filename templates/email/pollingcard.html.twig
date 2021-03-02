@@ -1,0 +1,40 @@
+<p>
+    Hallo {{ voter.name }}!
+</p>
+
+<p>
+    Du bist berechtigt, mit dem SecureVote-System an einer Online-Abstimmung teilzunehmen:
+</p>
+
+<table>
+    <tr>
+        <td><b>Titel:</b></td>
+        <td>{{ poll.title }}</td>
+    </tr>
+    <tr>
+        <td><b>Beschreibung:</b></td>
+        <td>{{ poll.description }}</td>
+    </tr>
+    <tr>
+        <td><b>Link zur Teilnahme:</b></td>
+        <td><a href="{{ absolute_url(path('vote', {'id': ticket.id})) }}">{{ absolute_url(path('vote', {'id': ticket.id})) }}</a></td>
+    </tr>
+    <tr>
+        <td><b>Passcode:</b></td>
+        <td>{{ ticket.passcode }}</td>
+    </tr>
+</table>
+
+<p>
+    Klicke auf den Teilnahmelink, um an der Abstimmung teilzunehmen. Du brauchst dafür nur den Passcode, um deine
+    Identität zu verifizieren.
+</p>
+
+<p>
+    Wenn die Abstimmung beendet ist, wirst du nochmal eine E-Mail erhalten.
+</p>
+
+<p>
+    Mit freundlichen Grüßen<br>
+    Das SecureVote-System
+</p>
