@@ -19,14 +19,6 @@ class UserType extends AbstractType
         $builder
             ->add('email', EmailType::class)
             ->add('name', TextType::class)
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'ROLE_USER_ADMIN' => 'ROLE_USER_ADMIN',
-                    'ROLE_VOTER_ADMIN' => 'ROLE_VOTER_ADMIN',
-                ],
-                'expanded' => true,
-                'multiple' => true,
-            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
@@ -36,6 +28,17 @@ class UserType extends AbstractType
                 'required' => $options['require_password'],
             ])
         ;
+
+        if ($options['include_roles']) {
+            $builder->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'ROLE_USER_ADMIN' => 'ROLE_USER_ADMIN',
+                    'ROLE_VOTER_ADMIN' => 'ROLE_VOTER_ADMIN',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -43,6 +46,7 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'require_password' => false,
+            'include_roles' => true,
         ]);
     }
 }

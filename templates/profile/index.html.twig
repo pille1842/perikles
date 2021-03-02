@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meine Daten{% endblock %}
+
+{% block body %}
+    <h1>Meine Daten</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Speichern'}) }}
+{% endblock %}
