@@ -6,6 +6,7 @@ use App\Repository\PollRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PollRepository::class)
@@ -21,11 +22,13 @@ class Poll
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $description;
 
@@ -40,7 +43,7 @@ class Poll
     private $stopped;
 
     /**
-     * @ORM\OneToMany(targetEntity=Option::class, mappedBy="poll", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Option::class, mappedBy="poll", orphanRemoval=true, cascade={"persist"})
      */
     private $options;
 
@@ -54,11 +57,19 @@ class Poll
      */
     private $votes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Voter::class, inversedBy="polls")
+     */
+    private $voters;
+
     public function __construct()
     {
         $this->options = new ArrayCollection();
         $this->tickets = new ArrayCollection();
-        $this->votes = new ArrayCollection();
+        $this->votes   = new ArrayCollection();
+        $this->started = false;
+        $this->stopped = false;
+        $this->voters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +211,30 @@ class Poll
                 $vote->setPoll(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Voter[]
+     */
+    public function getVoters(): Collection
+    {
+        return $this->voters;
+    }
+
+    public function addVoter(Voter $voter): self
+    {
+        if (!$this->voters->contains($voter)) {
+            $this->voters[] = $voter;
+        }
+
+        return $this;
+    }
+
+    public function removeVoter(Voter $voter): self
+    {
+        $this->voters->removeElement($voter);
 
         return $this;
     }

@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('poll_delete', {'id': poll.id}) }}" onsubmit="return confirm('Bist du sicher, dass du diese Abstimmung löschen willst?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ poll.id) }}">
+    <button class="btn btn-danger">Löschen</button>
+</form>

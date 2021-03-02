@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Neue Abstimmung{% endblock %}
+
+{% block body %}
+    <h1>Neue Abstimmung erstellen</h1>
+
+    {{ include('poll/_form.html.twig', {button_label: 'Abstimmung anlegen'}) }}
+
+    <a href="{{ path('poll_index') }}">Zurück zur Übersicht</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('options') }}
+{% endblock %}

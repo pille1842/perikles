@@ -1,0 +1,10 @@
+{% if poll.started and poll.stopped %}
+    <i class="bi-octagon-fill" style="color: red;"></i>
+    beendet
+{% elseif poll.started and not poll.stopped %}
+    <i class="bi-caret-right-square-fill" style="color: green;"></i>
+    läuft
+{% elseif not poll.started %}
+    <i class="bi-clipboard" style="color: grey;"></i>
+    noch nicht gestartet
+{% endif %}

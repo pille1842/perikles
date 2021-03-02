@@ -1,6 +1,17 @@
 @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons";
 
 .footer {
     background-color: rgba(134, 128, 31, 0.404);
     margin-top: 50px;
+}
+
+ul.options {
+    padding-left: 0;
+
+    li {
+        list-style-type: none;
+        margin-left: 0;
+        padding-bottom: 20px;
+    }
 }

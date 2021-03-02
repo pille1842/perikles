@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+
+    {{ form_row(form.title) }}
+
+    {{ form_row(form.description) }}
+
+    <h3>Auswahlmöglichkeiten</h3>
+    <div class="form-group">
+        <ul class="options" data-prototype="{{ form_widget(form.options.vars.prototype)|e('html_attr') }}">
+            {% for option in form.options %}
+                <li>{{ form_row(option.label) }}</li>
+            {% endfor %}
+        </ul>
+        <button type="button" class="btn btn-secondary add_option_link" data-collection-holder-class="options">Eine Option hinzufügen</button>
+    </div>
+
+    <h3>Zugelassene Wähler</h3>
+    {{ form_row(form.voters, {'label': false}) }}
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Speichern') }}</button>
+
+    {{ form_row(form._token) }}
+
+{{ form_end(form, {'render_rest': false}) }}

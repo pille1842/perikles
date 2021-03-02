@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abstimmungen{% endblock %}
+
+{% block body %}
+    <h1>Abstimmungen</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Titel</th>
+                <th>Beschreibung</th>
+                <th>Wähler</th>
+                <th>Status</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for poll in polls %}
+            <tr>
+                <td>{{ poll.id }}</td>
+                <td>{{ poll.title }}</td>
+                <td>{{ poll.description|u.truncate(25, '...') }}</td>
+                <td>{{ poll.voters|length }}</td>
+                <td>{{ include('poll/_status.html.twig', {'poll': poll}) }}</td>
+                <td>
+                    {% if not poll.started %}
+                        <a href="{{ path('poll_edit', {'id': poll.id}) }}" class="btn btn-secondary">Bearbeiten</a>
+                        <a href="#" class="btn btn-success">Starten</a>
+                    {% else %}
+                        {% if not poll.stopped %}
+                            <a href="#" class="btn btn-danger">Beenden</a>
+                        {% else %}
+                            <a href="#">Ergebnisse anzeigen</a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Keine Einträge gefunden.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('poll_new') }}" class="btn btn-success">Neue Abstimmung erstellen</a>
+{% endblock %}

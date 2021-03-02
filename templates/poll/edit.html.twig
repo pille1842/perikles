@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abstimmung bearbeiten{% endblock %}
+
+{% block body %}
+    <h1>Abstimmung bearbeiten</h1>
+
+    {{ include('poll/_form.html.twig', {'button_label': 'Speichern'}) }}
+
+    <a href="{{ path('poll_index') }}">Zurück zur Übersicht</a>
+
+    {{ include('poll/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('options') }}
+{% endblock %}

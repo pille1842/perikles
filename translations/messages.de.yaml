@@ -11,3 +11,6 @@ ROLE_USER: Benutzer
 ROLE_USER_ADMIN: Kann Benutzer verwalten
 ROLE_VOTER_ADMIN: Kann Wähler verwalten
 Your changes were saved successfully.: Deine Änderungen wurden erfolgreich gespeichert.
+Title: Titel
+Description: Beschreibung
+Label: Beschriftung

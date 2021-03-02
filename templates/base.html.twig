@@ -29,7 +29,7 @@
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Abstimmungen</a>
+                                <a class="nav-link" href="{{ path('poll_index') }}">Abstimmungen</a>
                             </li>
                             {% if is_granted('ROLE_VOTER_ADMIN') %}
                                 <li class="nav-item">
