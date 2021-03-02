@@ -19,7 +19,7 @@
             <tr>
                 <td>{{ voter.id }}</td>
                 <td>{{ voter.name }}</td>
-                <td>{{ voter.email }}</td>
+                <td><a href="mailto:{{ voter.email }}">{{ voter.email }}</a></td>
                 <td>
                     <a class="btn btn-secondary" href="{{ path('voter_edit', {'id': voter.id}) }}">Bearbeiten</a>
                 </td>
