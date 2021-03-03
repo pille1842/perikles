@@ -11,6 +11,8 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class VotingService
 {
+    const PASSCODE_LENGTH = 16;
+
     private $mailer;
     private $entityManager;
 
@@ -25,7 +27,7 @@ class VotingService
         // Create a ticket for every voter
         $this->entityManager->beginTransaction();
         try {
-            $voters = $poll->getVoters();
+            $voters = $poll->getVoters()->toArray();
             // Randomize the array so you can't guess the voter from the ticket ID
             shuffle($voters);
 
@@ -65,8 +67,11 @@ class VotingService
                 throw $e;
             }
 
-            // Finally, remove the reference to the voter from the ticket
+            // Finally, remove the reference to the voter from the ticket...
             $ticket->setVoter(null);
+            // ... and store the passcode as a SHA-512 hash instead
+            $ticket->setPasscode(hash('sha512', $ticket->getPasscode()));
+
             $this->entityManager->persist($ticket);
         }
         $this->entityManager->flush();
@@ -74,9 +79,19 @@ class VotingService
 
     private function generatePasscode(): string
     {
-        return substr(
-            sha1(random_bytes(64)),
-            0, 8
-        );
+        // Don't generate passcodes containing l, I, 1, 0, or O
+        $characters = '23456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+        $passcode   = '';
+
+        for ($i = 0; $i < $this::PASSCODE_LENGTH; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            if ($i > 0 && $i % 4 == 0) {
+                // Insert a separating character
+                $passcode .= '-';
+            }
+            $passcode .= $characters[$index];
+        }
+
+        return $passcode;
     }
 }

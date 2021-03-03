@@ -9,7 +9,8 @@
         {{ poll.description }}
     </p>
 
-    <h2>Deine Stimme</h2>
+    <hr>
+
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <button class="btn btn-primary">{{ button_label|default('Jetzt endgültig abstimmen') }}</button>

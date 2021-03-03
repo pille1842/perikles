@@ -16,3 +16,4 @@ Description: Beschreibung
 Label: Beschriftung
 Votefor: Ich stimme für
 Passcode: Passcode
+The passcode is case sensitive and must be entered including the separating dashes (-).: Groß- und Kleinschreibung beachten und den Passcode inklusive Bindestrichen (-) eingeben.

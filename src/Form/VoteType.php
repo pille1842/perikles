@@ -5,19 +5,18 @@ namespace App\Form;
 use App\Entity\Option;
 use App\Entity\Poll;
 use App\Entity\Vote;
+use App\Validator\IsEqualToSha512;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\EqualTo;
 
 class VoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $passcodeValidator = new EqualTo($options['passcode']);
-        // Override the message since it would give the user the actual passcode
+        $passcodeValidator = new IsEqualToSha512(['hash' => $options['passcode']]);
         $passcodeValidator->message = "The passcode is invalid.";
 
         $builder
@@ -32,6 +31,7 @@ class VoteType extends AbstractType
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [$passcodeValidator],
+                'help' => 'The passcode is case sensitive and must be entered including the separating dashes (-).',
             ])
         ;
     }
