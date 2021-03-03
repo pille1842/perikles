@@ -29,6 +29,11 @@ class Vote
      */
     private $votefor;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $passcode;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +59,18 @@ class Vote
     public function setVotefor(?Option $votefor): self
     {
         $this->votefor = $votefor;
+
+        return $this;
+    }
+
+    public function getPasscode(): ?string
+    {
+        return $this->passcode;
+    }
+
+    public function setPasscode(string $passcode): self
+    {
+        $this->passcode = $passcode;
 
         return $this;
     }
