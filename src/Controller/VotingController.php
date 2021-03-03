@@ -40,7 +40,7 @@ class VotingController extends AbstractController
             // Invalidate the ticket...
             $ticket->setValid(false);
             // ... and store the hashed passcode on the vote for later validation of vote tallying
-            $vote->setPasscode(hash('sha256', $ticket->getPasscode()));
+            $vote->setPasscode(hash('sha256', $form->get('passcode')->getData()));
             $entityManager->persist($ticket);
             $entityManager->persist($vote);
 
