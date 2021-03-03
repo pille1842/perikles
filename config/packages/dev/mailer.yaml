@@ -1,6 +1,6 @@
 framework:
     mailer:
         envelope:
-            sender: 'securevote@pennaelerkartell.de'
+            sender: 'perikles@pennaelerkartell.de'
         headers:
-            from: 'SecureVote <securevote@pennaelerkartell.de>'
+            from: 'Perikles <perikles@pennaelerkartell.de>'
