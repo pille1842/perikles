@@ -56,6 +56,11 @@ class PollController extends AbstractController
      */
     public function edit(Request $request, Poll $poll): Response
     {
+        if ($poll->getStarted()) {
+            $this->addFlash('danger', "This poll was already started and can't be edited anymore.");
+            return $this->redirectToRoute('poll_index');
+        }
+
         $form = $this->createForm(PollType::class, $poll);
         $form->handleRequest($request);
 
@@ -76,6 +81,11 @@ class PollController extends AbstractController
      */
     public function delete(Request $request, Poll $poll): Response
     {
+        if ($poll->getStarted()) {
+            $this->addFlash('danger', "This poll was already started and can't be deleted anymore.");
+            return $this->redirectToRoute('poll_index');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$poll->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($poll);
@@ -90,6 +100,11 @@ class PollController extends AbstractController
      */
     public function start(VotingService $votingService, Request $request, Poll $poll): Response
     {
+        if ($poll->getStarted()) {
+            $this->addFlash('danger', "This poll was already started and can't be started again.");
+            return $this->redirectToRoute('poll_index');
+        }
+
         if ($this->isCsrfTokenValid('start'.$poll->getId(), $request->request->get('_token'))) {
             $votingService->startVote($poll);
 
@@ -107,6 +122,16 @@ class PollController extends AbstractController
      */
     public function stop(VotingService $votingService, Request $request, Poll $poll): Response
     {
+        if (! $poll->getStarted()) {
+            $this->addFlash('danger', "This poll wasn't started yet.");
+            return $this->redirectToRoute('poll_index');
+        }
+
+        if ($poll->getStopped()) {
+            $this->addFlash('danger', "This poll was already stopped and can't be stopped again.");
+            return $this->redirectToRoute('poll_index');
+        }
+
         if ($this->isCsrfTokenValid('stop'.$poll->getId(), $request->request->get('_token'))) {
             $votingService->stopVote($poll);
 

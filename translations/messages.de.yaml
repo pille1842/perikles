@@ -19,3 +19,8 @@ Passcode: Passcode
 The passcode is case sensitive and must be entered including the separating dashes (-).: Groß- und Kleinschreibung beachten und den Passcode inklusive Bindestrichen (-) eingeben.
 Congratulations! Your vote for "{{ option }}" was properly counted.: Gratulation! Deine Stimme für die Option "{{ option }}" wurde ordnungsgemäß gezählt.
 Uh-oh. Your vote could not be found in the database. Something is wrong.: Ups. Deine Stimme konnte nicht in der Datenbank gefunden werden. Etwas ist schiefgelaufen.
+This poll was already started and can't be edited anymore.: Diese Abstimmung läuft bereits und kann nicht mehr bearbeitet werden.
+This poll was already started and can't be deleted anymore.: Diese Abstimmung läuft bereits und kann nicht mehr gelöscht werden.
+This poll was already started and can't be started again.: Diese Abstimmung läuft bereits und kann nicht erneut gestartet werden.
+This poll wasn't started yet.: Diese Abstimmung läuft noch nicht.
+This poll was already stopped and can't be stopped again.: Diese Abstimmung wurde bereits beendet und kann nicht erneut beendet werden.
