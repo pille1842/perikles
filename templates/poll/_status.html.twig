@@ -1,10 +1,7 @@
 {% if poll.started and poll.stopped %}
-    <i class="bi-octagon-fill" style="color: red;"></i>
-    beendet
+    <span class="badge badge-pill badge-danger">beendet</span>
 {% elseif poll.started and not poll.stopped %}
-    <i class="bi-caret-right-square-fill" style="color: green;"></i>
-    läuft
+    <span class="badge badge-pill badge-success">läuft</span>
 {% elseif not poll.started %}
-    <i class="bi-clipboard" style="color: grey;"></i>
-    noch nicht gestartet
+    <span class="badge badge-pill badge-secondary">noch nicht gestartet</span>
 {% endif %}
