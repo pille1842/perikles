@@ -23,7 +23,7 @@ class VoterController extends AbstractController
     public function index(VoterRepository $voterRepository): Response
     {
         return $this->render('voter/index.html.twig', [
-            'voters' => $voterRepository->findAll(),
+            'voters' => $voterRepository->findBy([], ['name' => 'ASC']),
         ]);
     }
 

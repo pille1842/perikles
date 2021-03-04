@@ -24,7 +24,7 @@ class PollController extends AbstractController
     public function index(PollRepository $pollRepository): Response
     {
         return $this->render('poll/index.html.twig', [
-            'polls' => $pollRepository->findAll(),
+            'polls' => $pollRepository->findBy([], ['id' => 'DESC']),
         ]);
     }
 
