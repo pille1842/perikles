@@ -34,9 +34,12 @@
                             </form>
                         {% else %}
                             {% if not poll.stopped %}
-                                <a href="#" class="btn btn-danger">Beenden</a>
+                                <form method="post" action="{{ path('poll_stop', {'id': poll.id}) }}" onsubmit="return confirm('Bist du sicher, dass du diese Abstimmung beenden willst?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('stop' ~ poll.id) }}">
+                                    <button class="btn btn-danger">Beenden</button>
+                                </form>
                             {% else %}
-                                <a href="#">Ergebnisse anzeigen</a>
+                                <a href="{{ path('poll_result', {id: poll.id}) }}">Ergebnisse anzeigen</a>
                             {% endif %}
                         {% endif %}
                     </td>

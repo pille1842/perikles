@@ -77,6 +77,77 @@ class VotingService
         $this->entityManager->flush();
     }
 
+    public function stopVote(Poll $poll): void
+    {
+        // Invalidate all remaining tickets
+        $this->entityManager->beginTransaction();
+        try {
+            $tickets = $poll->getTickets();
+            foreach ($tickets as $ticket) {
+                $ticket->setValid(false);
+                $this->entityManager->persist($ticket);
+            }
+        } catch (Exception $e) {
+            $this->entityManager->rollback();
+            throw $e;
+        }
+
+        // Write the tickets to the database
+        $this->entityManager->commit();
+        $this->entityManager->flush();
+
+        // Calculate the result
+        $result = $this->calculateResult($poll);
+
+        // Send a message to every voter
+        foreach ($voters as $voter) {
+            $email = (new TemplatedEmail())
+                ->to($voter->getEmail())
+                ->subject("Wahlergebnis: " . $poll->getTitle())
+                ->htmlTemplate('email/result.html.twig')
+                ->context([
+                    'poll'   => $poll,
+                    'voter'  => $voter,
+                    'result' => $result,
+                ]);
+            try {
+                $this->mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // TODO: Better error handling
+                throw $e;
+            }
+        }
+    }
+
+    public function calculateResult(Poll $poll): array
+    {
+        $result = ['options' => [], 'totalVotes' => 0, 'totalTickets' => 0];
+        // Populate the available options
+        foreach ($poll->getOptions() as $option) {
+            $result['options'][$option->getId()] = [
+                'option' => $option,
+                'count' => 0,
+            ];
+        }
+        // Tally the votes
+        $votes = $poll->getVotes();
+        foreach ($votes as $vote) {
+            $option = $vote->getVotefor();
+            $result['options'][$option->getId()]['count']++;
+        }
+        $result['totalVotes'] = count($votes);
+
+        $voters = $poll->getVoters();
+        $result['totalTickets'] = count($voters);
+        if ($result['totalTickets'] > 0) {
+            $result['turnout'] = $result['totalVotes'] / $result['totalTickets'];
+        } else {
+            $result['turnout'] = 0;
+        }
+
+        return $result;
+    }
+
     private function generatePasscode(): string
     {
         // Don't generate passcodes containing l, I, 1, 0, or O

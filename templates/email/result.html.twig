@@ -1,0 +1,53 @@
+<p>
+    Hallo {{ voter.name }}!
+</p>
+
+<p>
+    Eine Abstimmung, für die du wahlberechtigt warst, wurde beendet. Hier ist das Ergebnis:
+</p>
+
+<table>
+    <tr>
+        <td><b>Titel:</b></td>
+        <td>{{ poll.title }}</td>
+    </tr>
+    <tr>
+        <td><b>Beschreibung:</b></td>
+        <td>{{ poll.description }}</td>
+    </tr>
+    <tr>
+        <td><b>Ergebnis:</b></td>
+        <td>
+            <ul>
+                {% for option in result.options %}
+                    <li>
+                        <b>{{ option.option.label }}</b>:
+                        {{ option.count }} Stimmen
+                        {% if result.totalVotes > 0 %}
+                            ({{ (option.count / result.totalVotes) | format_percent_number({fraction_digit: 2}) }})
+                        {% else %}
+                            ({{ 0 | format_percent_number({fraction_digit: 2}) }})
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><b>Wahlbeteiligung:</b></td>
+        <td>
+            {{ result.totalVotes }} Stimmen / {{ result.totalTickets }} Wahlberechtigte =
+            {{ result.turnout | format_percent_number({fraction_digit: 2}) }}
+        </td>
+    </tr>
+</table>
+
+<p>
+    Du kannst das Ergebnis hier im Browser ansehen und überprüfen, ob deine Stimme gezählt wurde:<br/>
+    <a href="{{ absolute_url(path('poll_result', {'id': poll.id})) }}">{{ absolute_url(path('poll_result', {'id': poll.id})) }}</a>
+</p>
+
+<p>
+    Mit freundlichen Grüßen<br/>
+    Das Perikles-System
+</p>

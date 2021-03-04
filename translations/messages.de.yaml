@@ -17,3 +17,5 @@ Label: Beschriftung
 Votefor: Ich stimme für
 Passcode: Passcode
 The passcode is case sensitive and must be entered including the separating dashes (-).: Groß- und Kleinschreibung beachten und den Passcode inklusive Bindestrichen (-) eingeben.
+Congratulations! Your vote for "{{ option }}" was properly counted.: Gratulation! Deine Stimme für die Option "{{ option }}" wurde ordnungsgemäß gezählt.
+Uh-oh. Your vote could not be found in the database. Something is wrong.: Ups. Deine Stimme konnte nicht in der Datenbank gefunden werden. Etwas ist schiefgelaufen.

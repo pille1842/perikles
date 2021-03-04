@@ -101,4 +101,21 @@ class PollController extends AbstractController
 
         return $this->redirectToRoute('poll_index');
     }
+
+    /**
+     * @Route("/{id}/stop", name="poll_stop", methods={"POST"})
+     */
+    public function stop(VotingService $votingService, Request $request, Poll $poll): Response
+    {
+        if ($this->isCsrfTokenValid('stop'.$poll->getId(), $request->request->get('_token'))) {
+            $votingService->stopVote($poll);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $poll->setStopped(true);
+            $entityManager->persist($poll);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('poll_index');
+    }
 }

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abstimmungsergebnis: {{ poll.title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ poll.title }}</h1>
+
+    <p>
+        {{ poll.description }}
+    </p>
+
+    <hr>
+
+    <h2>Abstimmungsergebnis</h2>
+
+    <ul>
+        {% for option in result.options %}
+            <li>
+                <b>{{ option.option.label }}</b>:
+                {{ option.count }} Stimmen
+                {% if result.totalVotes > 0 %}
+                    ({{ (option.count / result.totalVotes) | format_percent_number({fraction_digit: 2}) }})
+                {% else %}
+                    ({{ 0 | format_percent_number({fraction_digit: 2}) }})
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Wahlbeteiligung</h2>
+
+    <p>
+        {{ result.totalVotes }} Stimmen ÷ {{ result.totalTickets }} Wahlberechtigte =
+        {{ result.turnout | format_percent_number({fraction_digit: 2}) }}
+    </p>
+
+    <h2>Deine Stimme überprüfen</h2>
+
+    <p>
+        Perikles hat deine Stimme beim Speichern mit einer verschlüsselten Version des Passcodes verknüpft, den du in deiner
+        Wahlbenachrichtigung findest. Du kannst hier deinen Passcode eingeben, um zu überprüfen, ob deine Stimme ordnungsgemäß
+        gezählt wurde.
+    </p>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.passcode) }}
+
+    <button type="submit" class="btn btn-secondary">Jetzt überprüfen</button>
+
+    {{ form_end(form) }}
+{% endblock %}
