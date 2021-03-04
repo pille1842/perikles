@@ -100,7 +100,7 @@ class VotingService
         $result = $this->calculateResult($poll);
 
         // Send a message to every voter
-        foreach ($voters as $voter) {
+        foreach ($poll->getVoters() as $voter) {
             $email = (new TemplatedEmail())
                 ->to($voter->getEmail())
                 ->subject("Wahlergebnis: " . $poll->getTitle())
