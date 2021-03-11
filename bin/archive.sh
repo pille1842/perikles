@@ -61,3 +61,4 @@ tar czf Perikles_v$VERSION.tar.gz Perikles_v$VERSION/
 tar cJf Perikles_v$VERSION.tar.xz Perikles_v$VERSION/
 popd >/dev/null 2>&1
 mv $TMPDIR/Perikles_v$VERSION.zip $TMPDIR/Perikles_v$VERSION.tar.gz $TMPDIR/Perikles_v$VERSION.tar.xz .
+rm -rf $TMPDIR
